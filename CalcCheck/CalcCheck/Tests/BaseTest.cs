@@ -1,8 +1,8 @@
-﻿using CalcCheck.Step;
+﻿using CalcCheck.Steps;
 using NUnit.Framework;
 using System;
 
-namespace CalcCheck.Test
+namespace CalcCheck.Tests
 {
 
     [TestFixture]

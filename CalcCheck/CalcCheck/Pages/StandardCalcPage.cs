@@ -1,9 +1,7 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using CalcCheck.Core;
+using OpenQA.Selenium;
 
-namespace CalcCheck.Page
+namespace CalcCheck.Pages
 {
     public class StandardCalcPage : BasePage
     {
@@ -49,16 +47,13 @@ namespace CalcCheck.Page
         public string GetCalculatorExpression()
         {
             var expressionText = CalculatorExpressionField.GetAttribute("Name");
-            var expression = Regex.Replace(expressionText, @"[\sа-яa-z— ]", "", RegexOptions.IgnoreCase);
-            return expression;
+            return expressionText;
         }
 
-        public double CheckThatTheResultIsCorrect()
+        public string CheckThatTheResultIsCorrect()
         {
             var getCalcResult = CalculatorResultsField.GetAttribute("Name");
-            var actualResult = Math.Round(Convert.ToDouble(
-                Regex.Replace(getCalcResult, "[а-яa-z ]", "", RegexOptions.IgnoreCase)), 12);
-            return actualResult;
+            return getCalcResult;
         }
 
         public void ClickOnMultiplyButton()
@@ -71,12 +66,10 @@ namespace CalcCheck.Page
             EqualButton.Click();
         }
 
-        public int GetCalcResult()
+        public string GetCalcResult()
         {
-            var calcResultText = CalculatorResultsField.GetAttribute("Name").ToString();
-            int calcResult;
-            int.TryParse(string.Join("", calcResultText.Where(r => char.IsDigit(r))), out calcResult);
-            return calcResult;
+            var calcResultText = CalculatorResultsField.GetAttribute("Name");
+            return calcResultText;
         }
 
         public void CloseCalculator()

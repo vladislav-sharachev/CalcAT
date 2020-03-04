@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium.Winium;
 using System;
 
-namespace CalcCheck.Driver
+namespace CalcCheck.Core.Driver
 {
     public static class DriverManager
     {
@@ -21,6 +21,7 @@ namespace CalcCheck.Driver
         {
             var options = new DesktopOptions();
             options.ApplicationPath = calculatorAppPath;
+            options.LaunchDelay = 1000;
             string winiumDriverPath = AppDomain.CurrentDomain.BaseDirectory + "/Resources";
             var service = WiniumDriverService.CreateDesktopService(winiumDriverPath);
             driver = new WiniumDriver(service, options);

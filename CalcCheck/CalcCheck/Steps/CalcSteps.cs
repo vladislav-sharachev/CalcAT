@@ -1,8 +1,11 @@
-﻿using CalcCheck.Page;
+﻿using CalcCheck.Core;
+using CalcCheck.Pages;
 using NUnit.Framework;
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace CalcCheck.Step
+namespace CalcCheck.Steps
 {
     public class CalcSteps
     {
@@ -33,17 +36,21 @@ namespace CalcCheck.Step
         public static void CheckThatInTheFieldTheCorrectOperationIsShown(int expectedNumber)
         {
             Console.WriteLine("Проверить что в поле отображается корректная операция");
+            var actualNumber = Regex.Replace(
+                new StandardCalcPage().GetCalculatorExpression(), @"[\sа-яa-z— ]", "", RegexOptions.IgnoreCase);
 
-            Assert.That(new StandardCalcPage().GetCalculatorExpression(), Is.EqualTo(string.Format("√({0})", expectedNumber)),
+            Assert.That(actualNumber, Is.EqualTo(string.Format("√({0})", expectedNumber)),
                 "Calculator expression result is not equal to the expected");
         }
 
         public static void CheckThatResultIsTheInputedNumber(int expectedNumber)
         {
             Console.WriteLine("Проверить что результат равен введенному числу");
+            int actualNumber;
+            int.TryParse(string.Join("", new StandardCalcPage().GetCalcResult()
+                .Where(r => char.IsDigit(r))), out actualNumber);
 
-            Assert.That(new StandardCalcPage().GetCalcResult(), Is.EqualTo(expectedNumber),
-                "Calculator result is not equal to the expected");
+            Assert.That(actualNumber, Is.EqualTo(expectedNumber), "Calculator result is not equal to the expected");
         }
 
         public static void CloseCalculator()
@@ -67,8 +74,11 @@ namespace CalcCheck.Step
         public static void CheckThatTheResultIsCorrect(double expectedResult)
         {
             Console.WriteLine("Проверить что результат корректный");
-            Assert.That(new StandardCalcPage().CheckThatTheResultIsCorrect(), Is.EqualTo(expectedResult),
-                "Actual result is not equal to the expected");
+            var actualResult = Math.Round(Convert.ToDouble(
+                Regex.Replace(new StandardCalcPage().CheckThatTheResultIsCorrect(),
+                "[а-яa-z ]", "", RegexOptions.IgnoreCase)), 12);
+
+            Assert.That(actualResult, Is.EqualTo(expectedResult), "Actual result is not equal to the expected");
         }
 
         public static void ClickOnSqureRootButton()

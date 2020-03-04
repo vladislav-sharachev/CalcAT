@@ -1,7 +1,7 @@
-﻿using CalcCheck.Driver;
+﻿using CalcCheck.Core.Driver;
 using NUnit.Framework;
 
-namespace CalcCheck.Test
+namespace CalcCheck.Tests
 {
     [SetUpFixture]
     public class BaseFixture

@@ -1,8 +1,8 @@
-﻿using CalcCheck.Driver;
+﻿using CalcCheck.Core.Driver;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Winium;
 
-namespace CalcCheck.Page
+namespace CalcCheck.Core
 {
     public class BasePage
     {
